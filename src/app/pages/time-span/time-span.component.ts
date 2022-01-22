@@ -20,7 +20,6 @@ export class TimeSpanComponent implements OnInit {
 
   inputForm!: FormGroup;
   contentForm!: FormGroup;
-
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   @ViewChild('input') input: any;
@@ -81,5 +80,11 @@ export class TimeSpanComponent implements OnInit {
       content,
     });
   }
-  updateContent(value: string): void {}
+
+  contentChange(content: string, timespan: TimeSpan, index: number): void {
+    const newTimespan = { ...timespan, content };
+    this.http.post('timespans', newTimespan).subscribe();
+    this.timespans[index].content = content;
+    console.log(newTimespan);
+  }
 }

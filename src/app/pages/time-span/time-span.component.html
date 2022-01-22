@@ -28,7 +28,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of basicTable.data">
+    <tr *ngFor="let data of basicTable.data; let i = index">
       <td>{{ data.date | date: 'hh:mm:ss' }}</td>
       <td>{{ data.span }}</td>
       <td>
@@ -51,9 +51,14 @@
             </nz-input-group>
           </nz-form-item>
         </form> -->
-        <a>Action 一 {{ data.content }}</a>
-        <nz-divider nzType="vertical"></nz-divider>
-        <a>Delete</a>
+        <p
+          nz-typography
+          nzEditable
+          [nzContent]="data.content"
+          (nzContentChange)="contentChange($event, data, i)"
+        ></p>
+        <!-- <nz-divider nzType="vertical"></nz-divider>
+        <a>Action</a> -->
       </td>
     </tr>
   </tbody>

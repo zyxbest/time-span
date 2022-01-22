@@ -26,6 +26,7 @@ import { SpanPipe } from './pipes/span.pipe';
 import { TimeSpanComponent } from './pages/time-span/time-span.component';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 registerLocaleData(zh);
 
 @NgModule({
@@ -53,6 +54,7 @@ registerLocaleData(zh);
     ReactiveFormsModule,
     NzTableModule,
     NzDividerModule,
+    NzTypographyModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN },
