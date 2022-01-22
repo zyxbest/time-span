@@ -27,12 +27,12 @@ export class AuthService {
 
   login(username: string, password: string) {
     return this.http
-      .post(this.apiUrl + '/login', {
+      .post('login', {
         username,
         password,
       })
       .pipe(
-        map((user:any) => {
+        map((user: any) => {
           localStorage.setItem('user', JSON.stringify(user));
           this.userSubject.next(user);
           return user;
@@ -42,7 +42,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('user');
     this.userSubject.next(null);
-    this.http.get(this.apiUrl + '/logout').subscribe();
+    this.http.get('logout').subscribe();
     this.router.navigate([Path.LOGIN_ROUTE]);
   }
 }
