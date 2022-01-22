@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
+import { fromEvent } from 'rxjs';
 
 interface TimeSpan {
   id: number;
@@ -21,19 +23,28 @@ export class TimeSpanComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
+  @ViewChild('input') input: any;
   ngOnInit(): void {
     this.inputForm = this.fb.group({
       content: [null, [Validators.required]],
     });
-
-    this.http.get<TimeSpan[]>('timespans/today').subscribe((v) => {
-      this.timespans = v;
+    this.fetchAllTimespansToday();
+    fromEvent(window, 'keyup').subscribe((event: any) => {
+      if (event.key === '/') {
+        console.log(event.key);
+        this.input.nativeElement.focus();
+      }
     });
   }
 
   submitForm(): void {
     if (this.inputForm.valid) {
       const content = this.inputForm.value.content;
+      this.postContent(content).subscribe({
+        next: () => {
+          this.fetchAllTimespansToday();
+        },
+      });
       this.inputForm.reset();
       console.log(content);
     } else {
@@ -46,7 +57,29 @@ export class TimeSpanComponent implements OnInit {
     }
   }
 
-  updateContent(value:string):void{
-
+  /**
+   * 找到今天的所有timespan
+   */
+  fetchAllTimespansToday() {
+    this.http.get<TimeSpan[]>('timespans/today').subscribe((v) => {
+      this.timespans = v.reverse();
+    });
   }
+
+  /**
+   * 增加一个timespan
+   * @param content : timespan内容;
+   */
+  postContent(content: string) {
+    // 与上时刻的差
+    const span = this.timespans.length
+      ? moment().diff(this.timespans[0].date, 'm')
+      : 0;
+    return this.http.post('timespans', {
+      date: new Date(),
+      span,
+      content,
+    });
+  }
+  updateContent(value: string): void {}
 }
