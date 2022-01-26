@@ -3,6 +3,7 @@ import { Octokit } from '@octokit/core';
 import { ISSUE_BASIC } from 'assets/issue';
 import { environment } from 'environments/environment';
 import * as moment from 'moment';
+moment.locale('zh-CN');
 @Injectable({
   providedIn: 'root',
 })
@@ -18,6 +19,7 @@ export class HttpService {
   constructor() {
     this.octokit = new Octokit({
       auth: environment.auth || localStorage.getItem('token'),
+      // timeZone: 'Asia/Shanghai',
     });
     console.log(this.dayStart, 'day');
   }
