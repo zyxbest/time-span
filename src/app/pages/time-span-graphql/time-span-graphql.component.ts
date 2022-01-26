@@ -15,10 +15,9 @@ interface TimeSpan {
 @Component({
   selector: 'app-time-span-graphql',
   templateUrl: './time-span-graphql.component.html',
-  styleUrls: ['./time-span-graphql.component.css']
+  styleUrls: ['./time-span-graphql.component.css'],
 })
 export class TimeSpanGraphqlComponent implements OnInit {
-
   timespans: TimeSpan[] = [];
 
   inputForm!: FormGroup;
@@ -42,11 +41,7 @@ export class TimeSpanGraphqlComponent implements OnInit {
   submitForm(): void {
     if (this.inputForm.valid) {
       const content = this.inputForm.value.content;
-      // this.postContent(content).subscribe({
-      //   next: () => {
-      //     this.fetchAllTimespansToday();
-      //   },
-      // });
+      this.postContent(content).then(() => this.fetchAllTimespansToday());
       this.inputForm.reset();
       console.log(content);
     } else {
@@ -63,34 +58,34 @@ export class TimeSpanGraphqlComponent implements OnInit {
    * 找到今天的所有timespan
    */
   fetchAllTimespansToday() {
-     this.http.issues().then((v)=>{
-       console.log(v);
-     })
-    // this.http.get<TimeSpan[]>('timespans/today').subscribe((v) => {
-    //   this.timespans = v.reverse();
-    // });
+    this.http.issues().then((v: any) => {
+      this.timespans = v.repository.issues.edges
+        .map((item: any) => ({
+          id: item.node.number,
+          date: item.node.createdAt,
+          span: item.node.title,
+          content: item.node.body,
+        }))
+        .reverse();
+    });
   }
 
   /**
    * 增加一个timespan
    * @param content : timespan内容;
    */
-  postContent(content: string) {
+  async postContent(content: string) {
     // 与上时刻的差
     const span = this.timespans.length
       ? moment().diff(this.timespans[0].date, 'm')
       : 0;
-    // return this.http.post('timespans', {
-    //   date: new Date(),
-    //   span,
-    //   content,
-    // });
+    return this.http.post(span, content);
   }
 
   contentChange(content: string, timespan: TimeSpan, index: number): void {
-    const newTimespan = { ...timespan, content };
-    // this.http.post('timespans', newTimespan).subscribe();
-    this.timespans[index].content = content;
-    console.log(newTimespan);
+    this.http.post(timespan.id, content).then((res) => {
+      this.timespans[index].content = content;
+      console.log(res);
+    });
   }
 }

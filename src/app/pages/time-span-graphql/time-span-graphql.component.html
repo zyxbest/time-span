@@ -29,7 +29,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let data of basicTable.data; let i = index">
-      <td>{{ data.date | date: 'hh:mm:ss' }}</td>
+      <td>{{ data.date | date: 'hh:mm:ss':"zh-CN" }}</td>
       <td>{{ data.span }}</td>
       <td>
         <!-- <form

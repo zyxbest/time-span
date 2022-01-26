@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomepageComponent } from 'app/pages/homepage/homepage.component';
 import { LoginComponent } from './pages/login/login.component';
+import { TimeSpanGraphqlComponent } from './pages/time-span-graphql/time-span-graphql.component';
 import { TimeSpanComponent } from './pages/time-span/time-span.component';
 
 const routes: Routes = [
@@ -13,7 +14,7 @@ const routes: Routes = [
     children: [
       {
         path: 'timespan',
-        component: TimeSpanComponent,
+        component: TimeSpanGraphqlComponent,
       },
     ],
   },
