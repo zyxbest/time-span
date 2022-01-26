@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080',
+  auth: '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',
 };
 
 /*
