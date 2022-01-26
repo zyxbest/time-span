@@ -27,6 +27,7 @@ import { TimeSpanComponent } from './pages/time-span/time-span.component';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { TimeSpanGraphqlComponent } from './pages/time-span-graphql/time-span-graphql.component';
 registerLocaleData(zh);
 
 @NgModule({
@@ -36,6 +37,7 @@ registerLocaleData(zh);
     HomepageComponent,
     SpanPipe,
     TimeSpanComponent,
+    TimeSpanGraphqlComponent,
   ],
   imports: [
     BrowserModule,

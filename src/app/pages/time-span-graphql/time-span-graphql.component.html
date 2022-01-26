@@ -1,0 +1,65 @@
+<form
+  nz-form
+  [formGroup]="inputForm"
+  (ngSubmit)="submitForm()"
+  nzLayout="horizontal"
+>
+  <nz-form-item nzFlex>
+    <nz-form-control nzErrorTip="Please input your Password!">
+      <nz-input-group>
+        <input
+          type="text"
+          #input
+          nz-input
+          formControlName="content"
+          placeholder="What have you done"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
+<nz-table #basicTable [nzData]="timespans">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Span</th>
+      <th>Content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data; let i = index">
+      <td>{{ data.date | date: 'hh:mm:ss' }}</td>
+      <td>{{ data.span }}</td>
+      <td>
+        <!-- <form
+          nz-form
+          [formGroup]="contentForm"
+          (ngSubmit)="updateContent(contentForm.value.content)"
+          nzLayout="horizontal"
+        >
+          <nz-form-item nzFlex>
+            <nz-input-group nzCompact nzSearch>
+              <nz-form-control style="">
+                <input
+                  type="text"
+                  formControlName="content"
+                  nz-input
+                  [value]="data.content"
+                />
+              </nz-form-control>
+            </nz-input-group>
+          </nz-form-item>
+        </form> -->
+        <p
+          nz-typography
+          nzEditable
+          [nzContent]="data.content"
+          (nzContentChange)="contentChange($event, data, i)"
+        ></p>
+        <!-- <nz-divider nzType="vertical"></nz-divider>
+        <a>Action</a> -->
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
