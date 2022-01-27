@@ -64,6 +64,6 @@ jobs:
 #           # Allow Jekyll to build your site
 #           jekyll: # optional, default is true
           # If enabled, nothing will be pushed
-          dry_run: true # optional, default is false
+         # dry_run: true # optional, default is false
           # Enable verbose output
 #           verbose: # optional, default is false
