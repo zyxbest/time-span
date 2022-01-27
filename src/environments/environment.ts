@@ -6,7 +6,6 @@ export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080',
   clientId: 'e15a18f68f34f9b35e05',
-  auth: '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',
 };
 
 /*
