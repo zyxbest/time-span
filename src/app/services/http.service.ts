@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Octokit } from '@octokit/core';
 import { ISSUE_BASIC } from 'assets/issue';
-import { environment } from 'environments/environment';
 import * as moment from 'moment';
 moment.locale('zh-CN');
 @Injectable({
@@ -17,8 +16,9 @@ export class HttpService {
     .toISOString();
 
   constructor() {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
     this.octokit = new Octokit({
-      auth: environment.auth || localStorage.getItem('token'),
+      auth: user['tokenValue'],
       // timeZone: 'Asia/Shanghai',
     });
     console.log(this.dayStart, 'day');

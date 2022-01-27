@@ -22,9 +22,13 @@ export class JwtInterceptor implements HttpInterceptor {
     const isApiUrl = request.url.startsWith(environment.apiUrl);
     console.log(isLoggedIn, 'isloginin');
     console.log(isApiUrl, 'isApiurl');
-    request = request.clone({
-      url: (environment.apiUrl || '') + '/' + request.url,
-    });
+
+    // 为相对路由设置根路由
+    if (!request.url.startsWith('http')) {
+      request = request.clone({
+        url: (environment.apiUrl || '') + '/' + request.url,
+      });
+    }
     if (isLoggedIn && isApiUrl) {
       request = request.clone({
         setHeaders: {

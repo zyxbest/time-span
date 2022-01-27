@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
 
   login(user: any) {
     return this.authService
-      .login(user.username, user.password)
+      .oauthLogin(user.username, user.password)
       .pipe(first())
       .subscribe({
         next: () => {
@@ -51,5 +51,9 @@ export class LoginComponent implements OnInit {
       password: [null, [Validators.required]],
       remember: [true],
     });
+  }
+
+  oauth() {
+    this.authService.authorize();
   }
 }
