@@ -54,20 +54,24 @@ export class HttpService {
   }
 
   post(span: number, content: string) {
-    return this.octokit.request('POST /repos/{owner}/{repo}/issues', {
-      ...ISSUE_BASIC,
-      title: span,
-      body: content,
-    });
+    return this.octokit
+      .request('POST /repos/{owner}/{repo}/issues', {
+        ...ISSUE_BASIC,
+        body: span + '',
+        title: content,
+      })
+      .then((id) => {
+        this.update(id.data.number, { state: 'closed' });
+      });
   }
 
-  update(id: number, body: string) {
+  update(id: number, body: any) {
     return this.octokit.request(
       'PATCH /repos/{owner}/{repo}/issues/{issue_number}',
       {
         ...ISSUE_BASIC,
         issue_number: id,
-        body,
+        ...body,
       }
     );
   }

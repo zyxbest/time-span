@@ -63,8 +63,8 @@ export class TimeSpanGraphqlComponent implements OnInit {
         .map((item: any) => ({
           id: item.node.number,
           date: item.node.createdAt,
-          span: item.node.title,
-          content: item.node.body,
+          span: item.node.body,
+          content: item.node.title,
         }))
         .reverse();
     });
@@ -83,7 +83,7 @@ export class TimeSpanGraphqlComponent implements OnInit {
   }
 
   contentChange(content: string, timespan: TimeSpan, index: number): void {
-    this.http.post(timespan.id, content).then((res) => {
+    this.http.update(timespan.id, { title: content }).then((res) => {
       this.timespans[index].content = content;
       console.log(res);
     });
