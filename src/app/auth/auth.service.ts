@@ -52,39 +52,8 @@ export class AuthService {
       };
       localStorage.setItem('user', JSON.stringify(user));
       this.userSubject.next(user);
-      // return 0;
       ob.next(user);
     });
-    // return user;
-    /*     return this.http
-      .post(
-        URL.GITHUB_ACCESSTOKEN,
-
-        {
-          client_id: this.clientId,
-          // client_secret: this.clientSecret,
-          code,
-        },
-        {
-          responseType: 'json',
-          headers: {
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-            // 'Access-Control-Allow-Origin': '*',
-            // 'Access-Control-Allow-Methods': 'POST, GET, PUT, OPTIONS, DELETE',
-          },
-        }
-      )
-      .pipe(
-        map(({ access_token }: any) => {
-          const user = {
-            tokenName: 'Authorization',
-            tokenValue: 'bearer' + access_token,
-          };
-          localStorage.setItem('user', JSON.stringify(user));
-          this.userSubject.next(user);
-          return user;
-        })
-      ); */
   }
 
   authorize() {
