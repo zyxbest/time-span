@@ -29,6 +29,8 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeSpanGraphqlComponent } from './pages/time-span-graphql/time-span-graphql.component';
+import { ToastrModule } from 'ngx-toastr';
+
 registerLocaleData(zh);
 
 @NgModule({
@@ -58,6 +60,7 @@ registerLocaleData(zh);
     NzTableModule,
     NzDividerModule,
     NzTypographyModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN },

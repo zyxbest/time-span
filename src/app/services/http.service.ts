@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Octokit } from '@octokit/core';
 import { ISSUE_BASIC } from 'assets/issue';
 import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 moment.locale('zh-CN');
 @Injectable({
   providedIn: 'root',
@@ -15,13 +16,12 @@ export class HttpService {
     .second(0)
     .toISOString();
 
-  constructor() {
+  constructor(private toastr: ToastrService) {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     this.octokit = new Octokit({
       auth: user['tokenValue'],
       // timeZone: 'Asia/Shanghai',
     });
-    console.log(this.dayStart, 'day');
   }
 
   async issues() {
@@ -62,17 +62,21 @@ export class HttpService {
       })
       .then((id) => {
         this.update(id.data.number, { state: 'closed' });
+      })
+      .catch((error: Error) => {
+        this.toastr.error(error.message);
       });
   }
 
   update(id: number, body: any) {
-    return this.octokit.request(
-      'PATCH /repos/{owner}/{repo}/issues/{issue_number}',
-      {
+    return this.octokit
+      .request('PATCH /repos/{owner}/{repo}/issues/{issue_number}', {
         ...ISSUE_BASIC,
         issue_number: id,
         ...body,
-      }
-    );
+      })
+      .catch((error: Error) => {
+        this.toastr.error(error.message);
+      });
   }
 }

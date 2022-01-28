@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from 'app/services/http.service';
 import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 import { fromEvent } from 'rxjs';
 
 interface TimeSpan {
@@ -22,7 +23,11 @@ export class TimeSpanGraphqlComponent implements OnInit {
 
   inputForm!: FormGroup;
   contentForm!: FormGroup;
-  constructor(private fb: FormBuilder, private http: HttpService) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpService,
+    private toastr: ToastrService
+  ) {}
 
   @ViewChild('input') input: any;
   ngOnInit(): void {
@@ -58,16 +63,21 @@ export class TimeSpanGraphqlComponent implements OnInit {
    * 找到今天的所有timespan
    */
   fetchAllTimespansToday() {
-    this.http.issues().then((v: any) => {
-      this.timespans = v.repository.issues.edges
-        .map((item: any) => ({
-          id: item.node.number,
-          date: item.node.createdAt,
-          span: item.node.body,
-          content: item.node.title,
-        }))
-        .reverse();
-    });
+    this.http
+      .issues()
+      .then((v: any) => {
+        this.timespans = v.repository.issues.edges
+          .map((item: any) => ({
+            id: item.node.number,
+            date: item.node.createdAt,
+            span: item.node.body,
+            content: item.node.title,
+          }))
+          .reverse();
+      })
+      .catch((error: Error) => {
+        this.toastr.error(error.message);
+      });
   }
 
   /**
