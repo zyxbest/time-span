@@ -1,69 +1,30 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the workflow will run
+name: GitHub Actions Build and Deploy Demo
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+    branches:
+      - master
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  build-and-deploy:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@master
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: |
-          echo Hello, world!,
-          yarn
-          yarn build
-        
+    - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
+      run: |
+          npm ci
+          node ./node_modules/@angular/cli/bin/ng build --prod --outputPath=dist --base-href=https://zyxbest.github.io/angular-demo/
 
-      # Runs a set of commands using the runners shell
-      - name: GitHub Pages
-        # You may pin to the exact commit or the version.
-        # uses: crazy-max/ghaction-github-pages@a117e4aa1fb4854d021546d2abdfac95be568a3a
-        uses: crazy-max/ghaction-github-pages@v2.6.0
-        with:
-          # GitHub repository where assets will be deployed (default $GITHUB_REPOSITORY)
-          repo: db
-          # Git branch where assets will be deployed
-#           target_branch: # optional, default is gh-pages
-          # Create incremental commit instead of doing push force
-#           keep_history: # optional, default is false
-          # Allow an empty commit to be created
-#           allow_empty_commit: # optional, default is true
-          # Build directory to deploy
-          build_dir: dist
-          # Whether to treat build_dir as an absolute path
-#           absolute_build_dir: # optional, default is false
-#           # If enabled, the content of symbolic links will be copied
-#           follow_symlinks: # optional, default is false
-#           # The committer name and email address
-#           committer: # optional
-#           # The author name and email address
-#           author: # optional
-#           # Commit message
-#           commit_message: # optional
-#           # Write the given domain name to the CNAME file
-#           fqdn: # optional
-#           # Allow Jekyll to build your site
-#           jekyll: # optional, default is true
-          # If enabled, nothing will be pushed
-          dry_run: true # optional, default is false
-          # Enable verbose output
-#           verbose: # optional, default is false
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@v4.2.2
+      with:
+        branch: gh-pages # The branch the action should deploy to.
+        folder: dist # The folder the action should deploy.
+
+    # - name: Build and Deploy
+    #   uses: JamesIves/github-pages-deploy-action@v4.2.2
+    #   env:
+    #     ACCESS_TOKEN: ${{ secrets.access_token }}
+    #     BRANCH: gh-pages
+    #     FOLDER: build
+    #     BUILD_SCRIPT: npm install && npm run build
