@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
@@ -60,6 +61,7 @@ registerLocaleData(zh);
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN },
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
     { useClass: JwtInterceptor, provide: HTTP_INTERCEPTORS, multi: true },
     { useClass: ErrorInterceptor, provide: HTTP_INTERCEPTORS, multi: true },
   ],
