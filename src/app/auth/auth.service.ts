@@ -5,7 +5,6 @@ import { Path, URL } from 'assets/path';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -48,7 +47,8 @@ export class AuthService {
     return new Observable((ob) => {
       const user = {
         tokenName: 'Authorization',
-        tokenValue: username + ' ' + password,
+        tokenValue: password,
+        username,
       };
       localStorage.setItem('user', JSON.stringify(user));
       this.userSubject.next(user);

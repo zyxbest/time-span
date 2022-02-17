@@ -15,6 +15,7 @@ export class HttpService {
     .minute(0)
     .second(0)
     .toISOString();
+  private username;
 
   constructor(private toastr: ToastrService) {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -22,12 +23,13 @@ export class HttpService {
       auth: user['tokenValue'],
       // timeZone: 'Asia/Shanghai',
     });
+    this.username = user['username'];
   }
 
   async issues() {
     const response = await this.octokit.graphql(
       `{
-        repository(owner: "zyxbest", name: "db") {
+        repository(owner: "${this.username}", name: "db") {
           issues(last: 20, filterBy:{since:"${this.dayStart}"}) {
             edges {
               node {
