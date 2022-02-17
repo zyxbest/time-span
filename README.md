@@ -7,6 +7,7 @@
 ### 一、创建自己的 repository
 
 名称一定要是 `db`
+
 可见性: private(别人看不到) 或者 public
 
 ### 二、生成自己的 access token
@@ -20,6 +21,7 @@
 ### 三、现在就可以登录了
 
 username: 自己的 github 名称
+
 password: 刚才生成的 Access Token
 
 ## Todo
