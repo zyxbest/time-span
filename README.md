@@ -4,13 +4,20 @@
 
 ## 如何使用
 
-[生成自己的 github access token](https://github.com/settings/tokens)
+### 一、创建自己的 repository
+
+名称一定要是 `db`
+可见性: private(别人看不到) 或者 public
+
+### 二、生成自己的 access token
+
+[github access token 生成网址](https://github.com/settings/tokens)
 
 1. 点击 generate
 2. 选择范围为 repo
 3. 记住这个 access token
 
-## 登录
+### 三、现在就可以登录了
 
 username: 自己的 github 名称
 password: 刚才生成的 Access Token
