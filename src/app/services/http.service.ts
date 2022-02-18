@@ -15,7 +15,6 @@ export class HttpService {
     .minute(0)
     .second(0)
     .toISOString();
-  private username;
 
   constructor(private toastr: ToastrService) {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -23,13 +22,13 @@ export class HttpService {
       auth: user['tokenValue'],
       // timeZone: 'Asia/Shanghai',
     });
-    this.username = user['username'];
+    ISSUE_BASIC.owner = user['username'];
   }
 
   async issues() {
     const response = await this.octokit.graphql(
       `{
-        repository(owner: "${this.username}", name: "db") {
+        repository(owner: "${ISSUE_BASIC.owner}", name: "db") {
           issues(last: 20, filterBy:{since:"${this.dayStart}"}) {
             edges {
               node {
