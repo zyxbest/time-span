@@ -32,7 +32,11 @@ password: 刚才生成的 Access Token
 
 - [x] 登录使用 github 认证
 - [ ] 可以编辑每一行的 span
-- [ ]
+- [ ] ann说可以有一种竞争的关系，
+    - [ ] 有个输入框，输入别人的token，每个人可以显示别人的，但是只能修改自己的，
+    - [ ] 然后就会显示别人的记录，通过名字区分开来，例如 zyxbest，甚至可以设置自己的 nickname
+    - [ ] 也可以有过滤功能，退出卷王模式，开启养老模式，只显示自己的记录
+    - [ ] 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.4.
 
