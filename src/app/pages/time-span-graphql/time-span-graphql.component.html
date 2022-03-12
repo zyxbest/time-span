@@ -1,19 +1,8 @@
-<form
-  nz-form
-  [formGroup]="inputForm"
-  (ngSubmit)="submitForm()"
-  nzLayout="horizontal"
->
+<form nz-form [formGroup]="inputForm" (ngSubmit)="submitForm()" nzLayout="horizontal">
   <nz-form-item nzFlex>
     <nz-form-control nzErrorTip="That's very thoughtful of you!">
       <nz-input-group>
-        <input
-          type="text"
-          #input
-          nz-input
-          formControlName="content"
-          placeholder="What have you done"
-        />
+        <input type="text" #input nz-input formControlName="content" placeholder="What have you done" />
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
@@ -51,13 +40,11 @@
             </nz-input-group>
           </nz-form-item>
         </form> -->
-        <p
-          style="display: inline"
-          nz-typography
-          nzEditable
-          [nzContent]="data.content"
-          (nzContentChange)="contentChange($event, data, i)"
-        ></p>
+        <p style="display: inline" nz-typography nzEditable [nzContent]="data.content"
+          (nzContentChange)="contentChange($event, data, i)"></p>
+
+         <p style="display: inline" nz-typography nzEditable nzEditIcon="comment" (nzContentChange)="comment($event, data, i)"></p>
+
         <!-- <nz-divider nzType="vertical"></nz-divider>
         <a>Action</a> -->
       </td>
