@@ -80,4 +80,39 @@ export class HttpService {
         this.toastr.error(error.message);
       });
   }
+
+  createIssueComment(content: string, id: number) {
+    return this.octokit
+      .request('POST /repos/{owner}/{repo}/issues/{issue_number}/comments', {
+        ...ISSUE_BASIC,
+        issue_number: id,
+        body: content,
+      })
+      .catch((error: Error) => {
+        this.toastr.error(error.message);
+      });
+  }
+
+  listComments(id: number) {
+    return this.octokit
+      .request('GET /repos/{owner}/{repo}/issues/{issue_number}/comments', {
+        ...ISSUE_BASIC,
+        issue_number: id,
+      })
+      .catch((error: Error) => {
+        this.toastr.error(error.message);
+      });
+  }
+
+  updateComment(id: number, content: string) {
+    return this.octokit
+      .request('PATCH /repos/{owner}/{repo}/issues/comments/{comment_id}', {
+        ...ISSUE_BASIC,
+        comment_id: id,
+        body: content,
+      })
+      .catch((error: Error) => {
+        this.toastr.error(error.message);
+      });
+  }
 }

@@ -32,25 +32,6 @@
       <td>{{ data.date | date: 'HH:mm:ss' }}</td>
       <td>{{ data.span | span }}</td>
       <td>
-        <!-- <form
-          nz-form
-          [formGroup]="contentForm"
-          (ngSubmit)="updateContent(contentForm.value.content)"
-          nzLayout="horizontal"
-        >
-          <nz-form-item nzFlex>
-            <nz-input-group nzCompact nzSearch>
-              <nz-form-control style="">
-                <input
-                  type="text"
-                  formControlName="content"
-                  nz-input
-                  [value]="data.content"
-                />
-              </nz-form-control>
-            </nz-input-group>
-          </nz-form-item>
-        </form> -->
         <p
           style="display: inline"
           nz-typography
@@ -58,14 +39,27 @@
           [nzContent]="data.content"
           (nzContentChange)="contentChange($event, data, i)"
         ></p>
-
         <p
           style="display: inline"
           nz-typography
           nzEditable
           nzEditIcon="comment"
-          (nzContentChange)="comment($event, data, i)"
+          nzEditTooltip="评论"
+          (nzContentChange)="comment($event, data.id, i)"
         ></p>
+
+        <p *ngIf="data.comments && data.comments.length > 0"></p>
+        <span *ngFor="let comment of data.comments; let commentIndex = index">
+          <p
+            style="display: inline"
+            nz-typography
+            nzEditable
+            [nzContent]="comment.body"
+            (nzContentChange)="
+              commentChange($event, comment.id, i, commentIndex)
+            "
+          ></p>
+        </span>
 
         <!-- <nz-divider nzType="vertical"></nz-divider>
         <a>Action</a> -->

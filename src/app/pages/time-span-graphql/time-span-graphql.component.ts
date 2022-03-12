@@ -11,6 +11,12 @@ interface TimeSpan {
   date: Date;
   span: number;
   content: string;
+  comments: Comment[];
+}
+
+interface Comment {
+  id: number;
+  body: string | undefined;
 }
 
 @Component({
@@ -75,6 +81,12 @@ export class TimeSpanGraphqlComponent implements OnInit {
           }))
           .reverse();
       })
+      .then(async () => {
+        const promises = this.timespans.map((v, i) =>
+          this.listComments(v.id, i)
+        );
+        await Promise.all(promises);
+      })
       .catch((error: Error) => {
         this.toastr.error(error.message);
       });
@@ -98,8 +110,37 @@ export class TimeSpanGraphqlComponent implements OnInit {
       console.log(res);
     });
   }
+  commentChange(
+    content: string,
+    id: number,
+    index: number,
+    commentIndex: number
+  ): void {
+    this.http.updateComment(id, content).then((res) => {
+      this.timespans[index].comments[commentIndex].body = content;
+      // this.fetchAllTimespansToday();
+      console.log(res, 'commentchange');
+    });
+  }
 
-  comment(content:String , data:TimeSpan , i:number){
-    alert("comment "+ content);
+  comment(content: string, id: number, index: number) {
+    if (content) {
+      this.http.createIssueComment(content, id).then(async (res) => {
+        await this.listComments(id, index);
+        console.log(res, 'res');
+      });
+    }
+  }
+
+  listComments(id: number, index: number) {
+    return this.http.listComments(id).then((res) => {
+      if (res) {
+        this.timespans[index].comments = res.data.map((v) => ({
+          body: v.body,
+          id: v.id,
+        }));
+      }
+      console.log(res, 'res list');
+    });
   }
 }
