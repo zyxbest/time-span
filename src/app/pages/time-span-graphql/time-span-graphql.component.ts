@@ -98,4 +98,8 @@ export class TimeSpanGraphqlComponent implements OnInit {
       console.log(res);
     });
   }
+
+  comment(content:String , data:TimeSpan , i:number){
+    alert("comment "+ content);
+  }
 }
