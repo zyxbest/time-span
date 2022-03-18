@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { nickname } from 'assets/nickname';
 import { Path, URL } from 'assets/path';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, map, Observable } from 'rxjs';
@@ -43,12 +44,16 @@ export class AuthService {
   }
 
   // github oauth login
-  oauthLogin(username: string, password: string) {
+  oauthLogin(username: string, password: string, repo: string) {
     return new Observable((ob) => {
+      const strs = repo.split('/');
       const user = {
         tokenName: 'Authorization',
         tokenValue: password,
+        owner: strs[0],
+        repo: strs[1],
         username,
+        nickname: nickname[username],
       };
       localStorage.setItem('user', JSON.stringify(user));
       this.userSubject.next(user);

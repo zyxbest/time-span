@@ -39,6 +39,7 @@
           [nzContent]="data.content"
           (nzContentChange)="contentChange($event, data, i)"
         ></p>
+        <br/>
         <p
           style="display: inline"
           nz-typography
@@ -47,8 +48,9 @@
           nzEditTooltip="评论"
           (nzContentChange)="comment($event, data.id, i)"
         ></p>
-
-        <p *ngIf="data.comments && data.comments.length > 0"></p>
+        <!-- <nz-divider style="margin: 0;" *ngIf="data.comments && data.comments.length > 0" -->
+        <!-- ></nz-divider> -->
+        <!-- <p *ngIf="data.comments && data.comments.length > 0"></p> -->
         <span *ngFor="let comment of data.comments; let commentIndex = index">
           <p
             style="display: inline"

@@ -9,6 +9,7 @@ moment.locale('zh-CN');
 })
 export class HttpService {
   private octokit: Octokit;
+  private nickname;
 
   private readonly dayStart = moment()
     .hour(0)
@@ -22,13 +23,23 @@ export class HttpService {
       auth: user['tokenValue'],
       // timeZone: 'Asia/Shanghai',
     });
-    ISSUE_BASIC.owner = user['username'];
+    ISSUE_BASIC.owner = user['owner'] || user['username'];
+    if (user['repo']) {
+      ISSUE_BASIC.repo = user['repo'];
+    }
+    // 是自己的项目的话不需要nickname
+    // 如果别人有nickname就用
+    // 不然就用他的username
+    this.nickname =
+      ISSUE_BASIC.owner == user['username']
+        ? ''
+        : user['nickname'] || user['username'];
   }
 
   async issues() {
     const response = await this.octokit.graphql(
       `{
-        repository(owner: "${ISSUE_BASIC.owner}", name: "db") {
+        repository(owner: "${ISSUE_BASIC.owner}", name: "${ISSUE_BASIC.repo}") {
           issues(last: 20, filterBy:{since:"${this.dayStart}"}) {
             edges {
               node {
@@ -59,7 +70,7 @@ export class HttpService {
       .request('POST /repos/{owner}/{repo}/issues', {
         ...ISSUE_BASIC,
         body: span + '',
-        title: content,
+        title: this.nickname + content,
       })
       .then((id) => {
         this.update(id.data.number, { state: 'closed' });
@@ -86,7 +97,7 @@ export class HttpService {
       .request('POST /repos/{owner}/{repo}/issues/{issue_number}/comments', {
         ...ISSUE_BASIC,
         issue_number: id,
-        body: content,
+        body: this.nickname + content,
       })
       .catch((error: Error) => {
         this.toastr.error(error.message);

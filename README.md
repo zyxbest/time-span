@@ -36,7 +36,7 @@ password: 刚才生成的 Access Token
     - [ ] 有个输入框，输入别人的token，每个人可以显示别人的，但是只能修改自己的，
     - [ ] 然后就会显示别人的记录，通过名字区分开来，例如 zyxbest，甚至可以设置自己的 nickname
     - [ ] 也可以有过滤功能，退出卷王模式，开启养老模式，只显示自己的记录
-    - [ ] 
+    - [ ] 可以将修改的图标变为 标识自己的名称的图标
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.4.
 

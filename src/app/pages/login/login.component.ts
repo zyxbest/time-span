@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
 
   login(user: any) {
     return this.authService
-      .oauthLogin(user.username, user.password)
+      .oauthLogin(user.username, user.password, user.repo)
       .pipe(first())
       .subscribe({
         next: () => {
@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
     this.validateForm = this.fb.group({
       username: [null, [Validators.required]],
       password: [null, [Validators.required]],
+      repo: [null],
       remember: [true],
     });
   }
