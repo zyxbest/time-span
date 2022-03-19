@@ -33,7 +33,7 @@ export class HttpService {
     this.nickname =
       ISSUE_BASIC.owner == user['username']
         ? ''
-        : user['nickname'] || user['username'];
+        : (user['nickname'] || user['username']) + ': ';
   }
 
   async issues() {
